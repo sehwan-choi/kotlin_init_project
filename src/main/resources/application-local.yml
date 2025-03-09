@@ -1,0 +1,82 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 1234
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 20
+      connection-timeout: 3000
+  jpa:
+    hibernate:
+      #      ddl-auto: update
+      ddl-auto: create
+    properties:
+      hibernate:
+        #        show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 1000
+  #        dialect: org.hibernate.dialect.MySQLDialect
+  #  security:
+  #    debug: true
+  web:
+    resources:
+      add-mappings: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+  main:
+    allow-bean-definition-overriding: true
+  #  threads:
+  #    virtual:
+  #      enabled: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      settings:
+        trace: false
+        web-allow-other: true # ?????? ?? ????? ??
+
+logging:
+  level:
+    org.springframework.transaction.interceptor: TRACE
+    org.springframework.jdbc.datasource.DataSourceTransactionManager: DEBUG
+    org.springframework.orm.jpa.JpaTransactionManager: DEBUG
+    org.hibernate.resource.transaction: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type: TRACE
+    com.me.security: TRACE # ???? ??
+  #    com.me.security.mvc.filter: DEBUG  # API Request Response ??
+  pattern:
+    console: "%clr(%d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd'T'HH:mm:ss.SSSXXX}}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} [%X{request_id:----}]%m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
+
+jwt:
+  secret:
+    key: 4B1F395D6E82793CF54863EA8B6EC9324448BC1397E3DC754B45E4DF23
+    expired: 3600000
+
+feign:
+  url: https://jsonplaceholder.typicode.com
+  auth:
+    key: testkey
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+common:
+  aes:
+    key: E43D48C15B6841AB80D10E1DECB52C3B

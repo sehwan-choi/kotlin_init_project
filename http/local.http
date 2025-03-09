@@ -1,0 +1,27 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###
+POST localhost:8080/api/v1/sign/signup
+Content-Type: application/json
+
+{
+  "username" : "choi",
+  "password" : "test",
+  "email" : "test@test.com"
+}
+
+###
+POST localhost:8080/api/v1/sign/login
+Content-Type: application/json
+
+{
+  "password" : "test",
+  "email" : "test@test.com"
+}
+
+###
+GET localhost:8080/api/v1/sign/user
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE3NDE1MzU0ODMsImV4cCI6MTc0MTUzOTA4M30.2QhgXL-Y-rGV-HknDnf4UW9L6Ir_6pI1NxXHTx0nV_g
