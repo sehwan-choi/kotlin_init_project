@@ -38,3 +38,7 @@ out/
 
 ### Kotlin ###
 .kotlin
+
+### yml
+application-local.yml
+application.yml

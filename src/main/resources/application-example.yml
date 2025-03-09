@@ -1,0 +1,53 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: # DB URL
+    username: # userName
+    password: # password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        #        show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 1000
+  security:
+    debug: true
+  web:
+    resources:
+      add-mappings: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    org.springframework.transaction.interceptor: TRACE
+    org.springframework.jdbc.datasource.DataSourceTransactionManager: DEBUG
+    org.springframework.orm.jpa.JpaTransactionManager: DEBUG
+    org.hibernate.resource.transaction: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type: TRACE
+    com.me.security: TRACE # 전체로그 출력
+  #    com.me.security.mvc.filter: DEBUG  # API Request Response 출력
+  pattern:
+    console: "%clr(%d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd'T'HH:mm:ss.SSSXXX}}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} [%X{request_id:----}]%m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
+
+jwt:
+  secret:
+    key: # JWT Salt Key
+    expired: 3600000
+
+feign:
+  url: https://jsonplaceholder.typicode.com
+  auth:
+    key: testkey
+
+
+common:
+  aes:
+    key: #암호화 키
