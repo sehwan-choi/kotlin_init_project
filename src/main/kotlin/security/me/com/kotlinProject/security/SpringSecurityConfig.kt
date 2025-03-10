@@ -12,10 +12,13 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.access.AccessDeniedHandler
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.security.web.csrf.CsrfFilter
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector
+import security.me.com.kotlinProject.common.generator.KeyGenerator
 import security.me.com.kotlinProject.common.jwt.JwtProvider
+import security.me.com.kotlinProject.mvc.filter.LoggingFilter
 import security.me.com.kotlinProject.security.filter.TokenAuthenticationFilter
 import security.me.com.kotlinProject.security.service.AccessAuthorizationService
 import security.me.com.kotlinProject.security.service.AuthenticationTokenVerifier
@@ -28,6 +31,7 @@ class SpringSecurityConfig(
     private val jwtProvider: JwtProvider,
     @Qualifier("jwtAuthenticationTokenVerifier") private val verifier: AuthenticationTokenVerifier,
     @Qualifier("userAuthorizationService") private val authorizationService: AccessAuthorizationService,
+    @Qualifier("logKeyGenerator") private val keyGenerator: KeyGenerator,
 ) {
     companion object {
         private const val loginProcessingUrl: String = "/api/v1/sign/login"
@@ -50,7 +54,8 @@ class SpringSecurityConfig(
                 it.authenticationEntryPoint(authenticationEntryPoint())
                 it.accessDeniedHandler(accessDeniedHandler())
             }
-            .addFilterBefore(TokenAuthenticationFilter(jwtProvider, verifier, authorizationService), CsrfFilter::class.java)
+            .addFilterBefore(LoggingFilter(keyGenerator), CsrfFilter::class.java)
+            .addFilterBefore(TokenAuthenticationFilter(jwtProvider, verifier, authorizationService), UsernamePasswordAuthenticationFilter::class.java)
 
         return http.build()
     }
